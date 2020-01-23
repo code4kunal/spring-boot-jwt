@@ -3,7 +3,7 @@ package com.java.multitenancy.controllers;
 import com.java.multitenancy.persistence.POJO.LoginRequest;
 import com.java.multitenancy.persistence.POJO.LoginRespnse;
 import com.java.multitenancy.persistence.POJO.UserRequest;
-import com.java.multitenancy.persistence.entity.UserEntity;
+import com.java.multitenancy.persistence.entity.User;
 import com.java.multitenancy.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
@@ -34,8 +34,8 @@ public class UserController {
   @RequestMapping(value = "user",
       produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
   public ResponseEntity createUser(@RequestBody UserRequest userRequest) {
-    UserEntity userEntity = userService.createUser(userRequest);
-    return ResponseEntity.status(HttpStatus.CREATED).body(userEntity);
+    User User = userService.createUser(userRequest);
+    return ResponseEntity.status(HttpStatus.CREATED).body(User);
   }
 
   @ApiOperation(value = "UserLogin", notes = "user login API")
@@ -50,15 +50,15 @@ public class UserController {
   @RequestMapping(value = "user",
       produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
   public ResponseEntity getUserById(@PathParam("userId") int userId, HttpRequest request) {
-    UserEntity userEntity = userService.getUser(userId, request);
-    return ResponseEntity.status(HttpStatus.OK).body(userEntity);
+    User User = userService.getUser(userId, request);
+    return ResponseEntity.status(HttpStatus.OK).body(User);
   }
 
   @ApiOperation(value = "GetAllUsers", notes = "get all users API")
   @RequestMapping(value = "user",
       produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
   public ResponseEntity getAllUsers(@PathParam("userId") int userId, HttpRequest request) {
-    List<UserEntity> listOfUsers = userService.getAllUser(userId, request);
+    List<User> listOfUsers = userService.getAllUser(userId, request);
     return ResponseEntity.status(HttpStatus.OK).body(listOfUsers);
   }
 
@@ -67,14 +67,14 @@ public class UserController {
       produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
   public ResponseEntity updateUser(@PathVariable("userId") String userId, HttpRequest request,
       @RequestBody  UserRequest userRequest) {
-    UserEntity userEntity = userService.updateUser(userId, userRequest, request);
-    return ResponseEntity.status(HttpStatus.OK).body(userEntity);
+    User User = userService.updateUser(userId, userRequest, request);
+    return ResponseEntity.status(HttpStatus.OK).body(User);
   }
 
   @ApiOperation(value = "DeleteUser", notes = "delete user API")
   @RequestMapping(value = "user/{userId}",
       produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-  public ResponseEntity deleteFile(@PathVariable("userId") String userId, HttpRequest request) {
+  public ResponseEntity deleteUser(@PathVariable("userId") String userId, HttpRequest request) {
     LOGGER.info("Deleting user with user ID {}", userId);
     userService.deleteUser(userId, request);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted Successfully");
